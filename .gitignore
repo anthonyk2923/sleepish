@@ -1,0 +1,23 @@
+*/node_modules
+
+# Output applies only to frontend
+frontend/.output
+frontend/.vercel
+frontend/.netlify
+frontend/.wrangler
+frontend/.svelte-kit
+frontend/build
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Env applies to all directories
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite applies to frontend
+frontend/vite.config.js.timestamp-*
+frontend/vite.config.ts.timestamp-*

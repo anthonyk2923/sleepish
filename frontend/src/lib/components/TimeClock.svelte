@@ -1,16 +1,24 @@
 <script>
-	let { time, selfData } = $props();
-	const curfew = [selfData?.app.curfewStart, selfData?.app.curfewEnd];
-	const timeStartLeft = $derived(curfew[0] - time.getHours());
-	const timeEndLeft = $derived(curfew[1] - time.getHours());
-	const isWithinCurfew = $derived(time.getHours() >= curfew[0] && time.getHours() <= curfew[1]);
-	const isBypassCurfew = selfData?.app.curfewBypass == 'true';
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	export let time;
+	export let selfData;
+
+	// Curfew and bypass logic
+	const curfew = [selfData?.app?.curfewStart || 0, selfData?.app?.curfewEnd || 24];
+	let timeStartLeft = curfew[0] - time.getHours();
+	let timeEndLeft = curfew[1] - time.getHours();
+	let isWithinCurfew = time.getHours() >= curfew[0] && time.getHours() <= curfew[1];
+	let isBypassCurfew = selfData?.app?.curfewBypass === 'true';
+	let isDisabled = isBypassCurfew || isWithinCurfew;
 </script>
 
-<div class={isBypassCurfew || isWithinCurfew ? 'text-blue-500' : 'text-red-500'}>
+<div class="text-white">
 	<h1>{time.getHours()}:{time.getMinutes()}:{time.getSeconds()}</h1>
-	<h1>{timeStartLeft}</h1>
-	<h1>{timeEndLeft}</h1>
-	<h1>{isWithinCurfew}</h1>
-	<h1>{isBypassCurfew}</h1>
+	<h1>Time Start Left: {timeStartLeft}</h1>
+	<h1>Time End Left: {timeEndLeft}</h1>
+	<h1>Is Within Curfew: {isWithinCurfew}</h1>
+	<h1>Is Bypass Curfew: {isBypassCurfew}</h1>
 </div>

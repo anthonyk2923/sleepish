@@ -34,6 +34,8 @@
 	let isSubmitting = false;
 	let time;
 	let appSettings;
+	let isDisabled;
+	let timeStartLeft = 0;
 
 	const handleSignIn = async (login, password) => {
 		await logIn({
@@ -101,6 +103,7 @@
 		isLoading = false;
 		totalPages = 0;
 		curLocationChatContainer = 0;
+		time = '';
 		if (socket) {
 			socket.disconnect();
 			socket = null;
@@ -216,6 +219,16 @@
 
 		return color;
 	}
+	$: {
+		if (time && selfData) {
+			const curfew = [selfData?.app?.curfewStart || 0, selfData?.app?.curfewEnd || 24];
+			timeStartLeft = curfew[0] - time.getHours();
+			let timeEndLeft = curfew[1] - time.getHours();
+			let isWithinCurfew = time.getHours() >= curfew[0] && time.getHours() <= curfew[1];
+			let isBypassCurfew = selfData?.app?.curfewBypass === 'true';
+			isDisabled = isBypassCurfew || isWithinCurfew;
+		}
+	}
 	onDestroy(() => {
 		if (socket) {
 			socket.off('newMessage');
@@ -226,7 +239,7 @@
 </script>
 
 {#if token}
-	<div class="flex h-screen">
+	<div class="flex h-screen {isDisabled ? '' : 'pointer-events-none blur-lg'}">
 		<ConNavBar {conUsers} />
 		<div
 			class="ml-auto mr-2 w-4/5 flex-1 overflow-y-auto overflow-x-hidden"
@@ -236,9 +249,46 @@
 			{#if isLoading}<Loading />{/if}
 			<ChatContainer {messages} {selfData} {stringToColor} {range} />
 		</div>
-		<SendNavBar {chatInput} {maxChars} {token} {tick} {scrollToBottom} {time} {selfData} />
+		<SendNavBar
+			{chatInput}
+			{maxChars}
+			{token}
+			{tick}
+			{scrollToBottom}
+			{time}
+			{selfData}
+			on:isDisabled={(e) => {
+				isDisabled = e.detail.isDisabled;
+				console.log(isDisabled);
+			}}
+		/>
 		<SignOutButton {logOut} />
 	</div>
+	{#if !isDisabled && time}
+		<div class="fixed inset-0 flex items-center justify-center">
+			<div class="text-6xl text-white">
+				<h1>
+					{Math.abs(timeStartLeft) - 1}
+				</h1>
+				<svg
+					class="h-16 w-16 text-white"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+					></path>
+				</svg>
+
+				<h1>{60 - time.getMinutes()}</h1>
+			</div>
+		</div>
+	{/if}
 {:else}
 	<ActionMenu
 		{signInMenu}

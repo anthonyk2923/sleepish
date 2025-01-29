@@ -1,6 +1,7 @@
 <script>
-	import TimeClock from './TimeClock.svelte';
-	let { chatInput, maxChars, token, tick, scrollToBottom, time, selfData } = $props();
+	let { chatInput, maxChars, token, tick, scrollToBottom, time, selfData, updateDisabledTime } =
+		$props();
+
 	const checkEnterSubmit = async (event) => {
 		if (event.keyCode == 13) {
 			event.preventDefault();
@@ -67,7 +68,4 @@
 	>
 		Send
 	</button>
-	{#if time}
-		<TimeClock {time} {selfData} />
-	{/if}
 </div>

@@ -151,7 +151,7 @@
 		if (!token) {
 			console.log('No token provided');
 		} else {
-			const socket = io('http://localhost:8080', {
+			const socket = io('/', {
 				query: { token: token }
 			});
 			return socket;

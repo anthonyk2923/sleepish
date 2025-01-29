@@ -21,3 +21,4 @@ Thumbs.db
 # Vite applies to frontend
 frontend/vite.config.js.timestamp-*
 frontend/vite.config.ts.timestamp-*
+.vercel

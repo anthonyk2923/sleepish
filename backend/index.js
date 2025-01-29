@@ -23,6 +23,7 @@ const io = initializeSocketServer(server);
 app.use('/api/user/', require('./routes/userRoute.js'))
 app.use('/api/message/', require('./routes/messageRoute.js')(io))
 
+
 server.listen(PORT, () => {
   console.log((`app listening on port ${PORT}`.magenta.underline))
 })

@@ -140,11 +140,12 @@
 			totalPages = newMessages.totalPages;
 			messages = [...newMessageData, ...messages];
 			await tick();
-			scrollToBottom();
+			console.log('post tick pre scroll');
 		} catch (error) {
 			console.error(error.message);
 		} finally {
 			isLoading = false;
+			scrollToBottom();
 		}
 	};
 	const socketConnect = (token) => {

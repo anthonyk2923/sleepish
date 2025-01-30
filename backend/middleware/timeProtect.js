@@ -3,6 +3,7 @@ const time = require("../config/time.js");
 const protect = async (req, res, next) => {
   console.log(process.env)
   const cur = new Date(await time.time()).getHours()
+  console.log(new Date().getHours())
   const curfewStart = parseInt(process.env.ALLOW_START);
   const curfewEnd = parseInt(process.env.ALLOW_END);
   const bypass = process.env.BYPASS_CURFEW == "true" || process.env.BYPASS_CURFEW == true

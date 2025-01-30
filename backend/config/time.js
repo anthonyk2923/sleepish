@@ -18,6 +18,7 @@ const getCurrentNtpTime = async () => {
     const ntpTime = new Date(result.now);
     ntpTime.setHours(ntpTime.getHours())
     ntpTime.setMinutes(ntpTime.getMinutes())
+    console.log(ntpTime)
     return ntpTime;
   } catch (error) {
     console.error("Failed to fetch NTP time:", error);

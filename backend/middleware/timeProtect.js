@@ -2,8 +2,13 @@ const time = require("../config/time.js");
 
 const protect = async (req, res, next) => {
   const timeNTP = new Date(await time.time());
-  const cur = timeNTP.getHours()
-  console.log(timeNTP.toString())
+
+  const options = { timeZone: "America/Chicago", hour12: false };
+  const curCT = timeNTP.toLocaleString("en-US", options);
+
+  const cur = new Date(curCT).getHours();
+
+  console.log(curCT); // Display current time in Central Time
   const curfewStart = parseInt(process.env.ALLOW_START);
   const curfewEnd = parseInt(process.env.ALLOW_END);
   const bypass = process.env.BYPASS_CURFEW == "true" || process.env.BYPASS_CURFEW == true

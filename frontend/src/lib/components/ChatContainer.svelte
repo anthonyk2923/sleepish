@@ -1,13 +1,25 @@
 <script>
-	let { messages, selfData, stringToColor, range } = $props();
+	let { messages, selfData, stringToColor, range, time } = $props();
+	const convertTime = (Intime, curTime) => {
+		const inDate = new Date(Intime);
+		const timeDifference = curTime - inDate;
+		const within24Hours = timeDifference < 24 * 60 * 60 * 1000;
 
-	const convertTime = (Intime) => {
-		const time = new Date(Intime);
-		return time.toLocaleTimeString('en-US', {
+		const options = {
 			hour: '2-digit',
 			minute: '2-digit',
 			hour12: true
-		});
+		};
+
+		// If within 24 hours, show only time
+		if (within24Hours) {
+			return inDate.toLocaleTimeString('en-US', options);
+		} else {
+			// Otherwise, show date and time
+			const dateString = inDate.toLocaleDateString('en-US');
+			const timeString = inDate.toLocaleTimeString('en-US', options);
+			return `${dateString} ${timeString}`;
+		}
 	};
 </script>
 
@@ -22,7 +34,7 @@
 		>
 			<p class="flex items-center justify-between font-bold">
 				<span>{message.username}</span>
-				<span class="text-sm font-normal text-gray-900">{convertTime(message.time)}</span>
+				<span class="text-sm font-normal text-gray-900">{convertTime(message.time, time)}</span>
 			</p>
 			<p class="break-words text-sm">{message.body}</p>
 		</div>

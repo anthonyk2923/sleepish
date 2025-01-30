@@ -247,7 +247,7 @@
 			on:scroll={handleScroll}
 		>
 			{#if isLoading}<Loading />{/if}
-			<ChatContainer {messages} {selfData} {stringToColor} {range} />
+			<ChatContainer {messages} {selfData} {stringToColor} {range} {time} />
 		</div>
 		<SendNavBar
 			{chatInput}

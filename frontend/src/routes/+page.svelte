@@ -243,7 +243,7 @@
 			socket.off('time');
 		}
 	});
-</script
+</script>
 
 {#if token}
 	<div class="flex h-screen {isDisabled ? '' : 'pointer-events-none blur-lg'}">

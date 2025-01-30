@@ -205,6 +205,13 @@
 		}
 	};
 
+	const formatTime = (time) => {
+		const formattedTime = 24 - Math.abs(time) - 1;
+		return formattedTime < 10 ? `0${formattedTime}` : formattedTime;
+	};
+	const formatMinTime = (time) => {
+		return time < 10 ? `0${time}` : time;
+	};
 	function stringToColor(username, range) {
 		let hash = 0;
 		for (let i = 0; i < username.length; i++) {
@@ -236,7 +243,7 @@
 			socket.off('time');
 		}
 	});
-</script>
+</script
 
 {#if token}
 	<div class="flex h-screen {isDisabled ? '' : 'pointer-events-none blur-lg'}">
@@ -268,7 +275,7 @@
 		<div class="fixed inset-0 flex items-center justify-center">
 			<div class="text-6xl text-white">
 				<h1>
-					{Math.abs(timeStartLeft) - 1}
+					{formatTime(timeStartLeft)}
 				</h1>
 				<svg
 					class="h-16 w-16 text-white"
@@ -285,7 +292,7 @@
 					></path>
 				</svg>
 
-				<h1>{60 - time.getMinutes()}</h1>
+				<h1>{formatMinTime(60 - time.getMinutes())}</h1>
 			</div>
 		</div>
 	{/if}

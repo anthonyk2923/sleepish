@@ -11,7 +11,6 @@
 			hour12: true
 		};
 
-		// If within 24 hours, show only time
 		if (within24Hours) {
 			return inDate.toLocaleTimeString('en-US', options);
 		} else {

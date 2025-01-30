@@ -5,14 +5,11 @@ const protect = async (req, res, next) => {
 
   const options = { timeZone: "America/Chicago", hour12: false };
   const curCT = timeNTP.toLocaleString("en-US", options);
-
   const cur = new Date(curCT).getHours();
 
-  console.log(curCT); // Display current time in Central Time
   const curfewStart = parseInt(process.env.ALLOW_START);
   const curfewEnd = parseInt(process.env.ALLOW_END);
   const bypass = process.env.BYPASS_CURFEW == "true" || process.env.BYPASS_CURFEW == true
-  console.log(cur, curfewStart, curfewEnd, bypass, ((cur >= curfewStart && cur < curfewEnd) || bypass))
   try {
     if ((cur >= curfewStart && cur < curfewEnd) || bypass) {
       next();

@@ -185,6 +185,7 @@
 	const scrollToBottom = () => {
 		if (chatContainer) {
 			chatContainer.scrollTop = chatContainer.scrollHeight;
+			console.log('done');
 		}
 	};
 
